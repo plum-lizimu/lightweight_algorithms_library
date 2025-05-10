@@ -1,0 +1,94 @@
+### 模型轻量化算法集成
+
+#### 离散数据文件存储(data)
+
+样例数据集:
+
+图像数据集: [CIFAR-10](https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz)、[CIFAR-100](https://www.cs.toronto.edu/~kriz/cifar-100-python.tar.gz)
+
+多模态数据集: [ScienceQA](https://github.com/lupantech/ScienceQA)
+
+推荐数据集: [Movielens-1M](https://grouplens.org/datasets/movielens/)、[Yahoo! R3](https://webscope.sandbox.yahoo.com)
+
+#### 本地数据加载器(dataloader)
+
+根据任务类型、数据集类型，自适应拓展数据集加载器接口功能
+
+样例数据集加载器：
+[CIFAR-10 Dataloader](./dataloader/cifar_10/Dataloader.py)、 [CIFAR-100 Dataloader](./dataloader/cifar_100/Dataloader.py)、[AG News Dataloader](./dataloader/ag_news/Dataloader.py)
+
+#### 知识蒸馏(kd / DFKD_ENS)
+
+| 算法名称 | 算法出处 |
+|:------|:------|
+|[soft target](./kd/kd_losses/soft_target.py) |[Distilling the Knowledge in a Neural Network](https://arxiv.org/pdf/1503.02531.pdf)|
+|[soft target binary](./kd/kd_losses/soft_target_binary.py) |[Distilling the Knowledge in a Neural Network](https://arxiv.org/pdf/1503.02531.pdf)|
+|[NKD](./kd/kd_losses/NKD.py) | [From Knowledge Distillation to Self-Knowledge Distillation: A Unified Approach with Normalized Loss and Customized Soft Labels](https://arxiv.org/pdf/2303.13005) |
+|[NormKD](./kd/kd_losses/NormKD.py) | [NormKD: Normalized Logits for Knowledge Distillation](https://arxiv.org/pdf/2308.00520) |
+|[Datafree-kd NasP](./DFKD_ENS/NasP.py) |Noisy Multi-Teacher Data-Free Adversarial Knowledge Distillation for Click-Through Rate Prediction|
+|[Datafree-kd NasI](./DFKD_ENS/NasI.py) |Noisy Multi-Teacher Data-Free Adversarial Knowledge Distillation for Click-Through Rate Prediction|
+
+模型中间层蒸馏组件：[plugin](./kd/plugin/)
+
+kd算法运行示例（对应配置写于 .kd/config.py 下，样例配置写于 ./kd/example 文件夹下）：
+
+``` python
+python run.py
+```
+
+NasP 运行示例（教师配置写于 ./DFKD_ENS/settings.py 下）：
+``` python
+python NasP.py
+```
+
+NasI 运行示例（教师模型写于 ./DFKD_ENS/settings.py 下）：
+``` python
+python NasI.py
+```
+
+#### 剪枝(pruning)
+| 算法名称 | 算法出处 |
+|:------|:------|
+|[BNScalePruner](./pruning/torch_pruning/pruner/algorithms/batchnorm_scale_pruner.py)|[Learning Efficient Convolutional Networks through Network Slimming](https://arxiv.org/abs/1708.06519)|
+|[GroupNormPruner](./pruning/torch_pruning/pruner/algorithms/group_norm_pruner.py)|[DepGraph: Towards Any Structural Pruning.](https://openaccess.thecvf.com/content/CVPR2023/html/Fang_DepGraph_Towards_Any_Structural_Pruning_CVPR_2023_paper.html)|
+|[GrowingRegPruner](./pruning/torch_pruning/pruner/algorithms/growing_reg_pruner.py)|[Neural Pruning via Growing Regularization](https://arxiv.org/abs/2012.09243)|
+
+运行示例（对应配置写于 config.py 下，样例配置写于 example 文件夹下）：
+
+``` python
+python run.py
+```
+
+#### 量化(quantization)
+| 算法名称 | 算法出处 |
+|:------|:------|
+|[QAT](https://github.com/pytorch/pytorch/tree/main/torch/ao/quantization)|[Quantization and Training of Neural Networks for Efficient Integer-Arithmetic-Only Inference](https://arxiv.org/abs/1712.05877)|
+|[DYQ](https://github.com/pytorch/pytorch/tree/main/torch/ao/quantization)|[Quantize Dynamic](https://pytorch.org/docs/stable/generated/torch.ao.quantization.quantize_dynamic.html)|
+
+运行示例（对应配置写于 config.json 下，样例配置写于 example 文件夹下）：
+
+``` python
+python main.py
+```
+
+#### 大模型高效微调(peft)
+
+| 算法名称 | 算法出处 |
+|:------|:------|
+|[NormalAdapter](./peft/PILL/model/adapters.py)|[Parameter-Efficient Transfer Learning for NLP](https://arxiv.org/abs/1902.00751)|
+|[GLUAdapter](./peft/PILL/model/adapters.py)|[PILL: Plug into LLM with Adapter Expert and Attention Gate](https://arxiv.org/pdf/2311.02126)|
+|[Lora](https://github.com/huggingface/peft/tree/main/src/peft/tuners/lora)|[LoRA: Low-Rank Adaptation of Large Language Models](https://arxiv.org/abs/2106.09685)|
+
+PILL 运行示例（对应配置写于 ./peft/PILL/adapter_config.py 下）:
+
+```python
+python train_sqa.py
+```
+
+Lora 运行示例:（对应配置写于 ./peft/Lora/config.json 下）:
+```python
+python run.py
+```
+
+#### 致谢
+本仓库参考并借用了[Torch-Pruning](https://github.com/VainF/Torch-Pruning)、[mmrazor](https://github.com/open-mmlab/mmrazor)、[PILL](https://github.com/DsaltYfish/PILL)、[peft](https://github.com/huggingface/peft)、[pytorch](https://github.com/pytorch/pytorch)的部分数据与代码，感谢这些项目的出色贡献！

@@ -1,0 +1,6 @@
+# 忽略 dataset 目录下所有内容
+data/**
+# 但允许提交空目录占位文件，保留目录结构
+!data/**/.gitkeep
+
+kd/teacher_model/resnet34-183-best_cifar100.pth

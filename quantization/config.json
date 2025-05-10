@@ -1,0 +1,52 @@
+{
+    "task": "qat",     
+    "model": {
+        "model_name": "resnet34",
+        "quantized_model_path": "" 
+    },
+    "train_params": {
+        "batch_size": 128,
+        "epochs": 0,
+        "iterative_steps": 3,
+        "learning_rate": 0.001
+    },
+    "quantization_params": {         
+        "quantization_type": "qat",  
+        "backend": "fbgemm",       
+        "qconfig": {
+            "activation": "per_tensor_affine",  
+            "weight": "per_tensor_affine"    
+        },
+        "prepare_qat": true,         
+        "num_calibration_batches": 32 
+    },
+    "losses_mapping": {
+        "loss_base": {
+            "weight": 1.0,
+            "loss_fn": "CrossEntropyLoss"
+        }
+    },
+    "dataloader": {
+        "dataset_name": "cifar_100",
+        "init_params": {
+            "data_path": "../data/cifar_100"
+        },
+        "train_dataloader_params": {
+            "mean": [0.5070751592371323, 0.48654887331495095, 0.4409178433670343],
+            "std":  [0.2673342858792401, 0.2564384629170883, 0.27615047132568404],
+            "batch_size": 128,
+            "num_workers": 2,
+            "shuffle": true
+        },
+        "test_dataloader_params": {
+            "mean": [0.5070751592371323, 0.48654887331495095, 0.4409178433670343],
+            "std":  [0.2673342858792401, 0.2564384629170883, 0.27615047132568404],
+            "batch_size": 128,
+            "num_workers": 2,
+            "shuffle": true
+        },
+        "val_dataloader": null
+    },  
+    "save_path": "./save_results",
+    "logger": "./log.txt"
+}

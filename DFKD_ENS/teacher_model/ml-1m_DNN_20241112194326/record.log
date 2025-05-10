@@ -1,0 +1,27 @@
+Namespace(dataset='ml-1m', model='DNN', emb_size=32, k=4, hd=[32, 32, 32, 32], epoch=40, batch_size=2048, lr=0.001, decay_gamma=0.3, weight_decay=1e-05, lr_decay_milestones='60', gpu=0, seed=None, workers=32)
+-------------------------------
+Use cuda:0
+model: DNN(
+  (embeddings): ModuleDict(
+    (user_feature): Embedding(6041, 32)
+    (item_feature): Embedding(3953, 32)
+  )
+  (linear_1): Linear(in_features=64, out_features=32, bias=True)
+  (batchNorm_1): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (activation_1): LeakyReLU(negative_slope=0.01)
+  (linear_2): Linear(in_features=32, out_features=32, bias=True)
+  (batchNorm_2): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (activation_2): LeakyReLU(negative_slope=0.01)
+  (linear_3): Linear(in_features=32, out_features=32, bias=True)
+  (batchNorm_3): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (activation_3): LeakyReLU(negative_slope=0.01)
+  (linear_4): Linear(in_features=32, out_features=32, bias=True)
+  (batchNorm_4): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (activation_4): LeakyReLU(negative_slope=0.01)
+  (fc): Linear(in_features=32, out_features=1, bias=True)
+)
+current_lr: 0.001
+[1 / 40] train_loss: 0.14160061264649415
+[1 / 40] val_loss: 0.6527052000164986
+[1 / 40] auc: 0.6432605836509245 logloss:0.6527051991011797
+--------------------------
